@@ -13,6 +13,11 @@ const config = {
     appId: "1:10289161292:web:957acf7c870330d93cc0e9",
     measurementId: "G-7BQXMZFXVD"
 };
+
+
+firebase.initializeApp(config);
+
+
 // we get back authenticated user (userAuth)
 export const createUserProfileDocument = async (userAuth, additionData) => {
     if (!userAuth) return;
@@ -21,14 +26,12 @@ export const createUserProfileDocument = async (userAuth, additionData) => {
 
     const snapShot = await userRef.get(); // this is to get a snapshot  to see if we store the user object 
 
-    console.log(snapShot);
 
     if (!snapShot.exits) {
         const { displayName, email } = userAuth;
         const createdAt = new Date();
 
         try {
-
             await userRef.set({
                 displayName,
                 email,
@@ -43,9 +46,6 @@ export const createUserProfileDocument = async (userAuth, additionData) => {
     return userRef;
 };
 
-
-
-firebase.initializeApp(config);
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
