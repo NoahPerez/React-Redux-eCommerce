@@ -1,0 +1,119 @@
+import React from 'react';
+
+import FromInput from '../form-input/form-input.component';
+import CustomButton from '../custom-button/custom-button.component';
+
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+
+
+import './sign-up.styles.scss';
+
+
+
+
+class SignUp extends React.Component {
+    constructor() {
+        super();
+
+
+        this.state = {
+            displayName: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
+    }
+
+
+    handleSubmit = async event => {
+        event.preventDefault();
+
+
+        const { displayName, email, password, confirmPassword } = this.state;
+
+        if (password !== confirmPassword) {
+            alert("password don't match");
+            return;
+        }
+        //    Creates a new user account associated with the specified email address and password.
+        //    On successful creation of the user account, this user will also be signed in to your application.
+        //    User account creation can fail if the account already exists or the password is invalid.
+        try {
+            const { user } = await auth.createUserWithEmailAndPassword(
+                email,
+                password
+            );
+
+            await createUserProfileDocument(user, { displayName })
+
+            this.setState({
+                displayName: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            });
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    handleChange = event => {
+        const { name, value } = event.target;
+
+        this.setState({ [name]: value });
+    };
+
+    render() {
+
+        const { displayName, email, password, confirmPassword } = this.state;
+        return (
+            <div className='sign-up'>
+                <h2 className='title'>I do not have an account</h2>
+                <span>Sign up with your email or password</span>
+                <form className='sign-up-form' onSubmit={this.handleSubmit}>
+
+                    <FromInput
+                        type='text'
+                        name='displayName'
+                        value={displayName}
+                        onChange={this.handleChange}
+                        label='Display Name'
+                        required
+                    />
+
+                    <FromInput
+                        type='email'
+                        name='email'
+                        value={email}
+                        onChange={this.handleChange}
+                        label='Email'
+                        required
+                    />
+
+                    <FromInput
+                        type='password'
+                        name='password'
+                        value={password}
+                        onChange={this.handleChange}
+                        label='Password'
+                        required
+                    />
+
+                    <FromInput
+                        type='password'
+                        name='confirmPassword'
+                        value={confirmPassword}
+                        onChange={this.handleChange}
+                        label='Confirm Password'
+                        required
+                    />
+
+                    <CustomButton type='submit'>Sign-Up</CustomButton>
+                </form>
+            </div>
+        )
+    }
+}
+
+export default SignUp;
