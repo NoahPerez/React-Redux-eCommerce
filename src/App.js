@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom'; // 1st Redirect the user not to the sign in
 import { connect } from 'react-redux'
 
 import './App.css';
@@ -40,20 +40,35 @@ class App extends React.Component {
     this.unsubscribeFromAuth();
   }
 
-  render() {
+  render() {  //render is JavaScript in location that determines what component to return
     return (
       <div>
         <Header />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/signIn' component={SignInAndSignUpPage} />
+          <Route
+            exact path='/signIn'
+            render={() => this.props.currentUser ? (  // this will be a function that will determine based off of this.props.currentUser ? if it is present then what we want to render is our redirect component that we just imported.
+              <Redirect to='/' />
+            ) : (   //all it takes is that to property that tells it where we want them to redirect to and then if not :
+                <SignInAndSignUpPage />
+              )
+            } // we render ignInAndSignUpPage
+          />
         </Switch>
       </div>
     );
   }
 }
 
+
+// 2nd we will need the current user redux state
+// now we are able to connect mapStateToProps
+// so now we have access to this.props.currentUser
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+});
 
 //2nd argument will be mapDispatchToProps which is a function that gets this dispatch property that will return an object 
 //where the property name will be whatever prop we want to pass in dispatches. the new action that we are trying to pass witch is setCurrentUser
@@ -73,4 +88,7 @@ const mapDispatchToProps = dispatch => ({
 
 // 1st argument we can do is pass in null as the first argument because we don't need any state so props from our reducer 
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
