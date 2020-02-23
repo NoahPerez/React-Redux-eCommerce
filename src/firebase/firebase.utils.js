@@ -19,7 +19,7 @@ firebase.initializeApp(config);
 
 
 // we get back authenticated user (userAuth)
-export const createUserProfileDocument = async (userAuth, additionData) => {
+export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) return;
 
     const userRef = firestore.doc(`user/${userAuth.uid}`); // this is to authecate user 
@@ -36,7 +36,7 @@ export const createUserProfileDocument = async (userAuth, additionData) => {
                 displayName,
                 email,
                 createdAt,
-                ...additionData
+                ...additionalData
             })
 
         } catch (error) {
