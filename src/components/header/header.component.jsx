@@ -4,6 +4,8 @@ import { connect } from 'react-redux'; // higher order component that let us mod
 // higher order components are just functions that take components as arguments and then return you a new souped up component.
 
 import { auth } from '../../firebase/firebase.utils'
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
@@ -11,7 +13,7 @@ import './header.styles.scss';
 
 
 // currentUser is coming form App.js at <Header currentUser={this.state.currentUser} /> 
-const Header = ({ currentUser }) => (  // we modified our header component to be receiving the current user value form our reducer // We also need to modify our App.js
+const Header = ({ currentUser, hidden }) => (  // we modified our header component to be receiving the current user value form our reducer // We also need to modify our App.js
     <div className='header'>
         <Link className='logo-container' to="/">
             <Logo className='logo' />
@@ -32,7 +34,13 @@ const Header = ({ currentUser }) => (  // we modified our header component to be
                             SIGN IN
           </Link>
                     )}
+
+            <CartIcon />
         </div>
+        {
+            hidden ? null : <CartDropdown />  //if hidden is true i don't want to render nothing but if it`s not then render 
+        }
+
     </div>
 )
 
@@ -42,8 +50,11 @@ const Header = ({ currentUser }) => (  // we modified our header component to be
 // the is state the root.reducer
 // we want to pass in a currentUser property, Where the value of it state.user.currentUser
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser  //// what we want from root-reducer.js  is user: userReducer, that is user is the value then which give us our user reducer 
+
+// deconstructing 
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+    currentUser, //// what we want from root-reducer.js  is user: userReducer, that is user is the value then which give us our user reducer
+    hidden
 })
 
 
