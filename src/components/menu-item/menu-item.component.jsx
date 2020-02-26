@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'; // high order component // It a f
 import './menu-item.style.scss';
 
 const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
-    // using a template string  `url(${imageUrl})` }} 
+    // using a template string  `url(${imageUrl})` }} // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
     <div
         className={`${size} menu-item`}
         onClick={() => history.push(`${match.url}${linkUrl}`)}

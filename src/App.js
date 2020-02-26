@@ -63,9 +63,11 @@ class App extends React.Component {
 }
 
 
-// 2nd we will need the current user redux state
+// 2nd we will need the current user  the redux state
 // now we are able to connect mapStateToProps
 // so now we have access to this.props.currentUser
+
+// this is to get the value of currentUser from user.reducer
 const mapStateToProps = ({ user }) => ({
   currentUser: user.currentUser
 });
