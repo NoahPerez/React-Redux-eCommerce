@@ -31,13 +31,11 @@ const CollectionItem = ({ item, addItem }) => {
 }
 //inverted is a key to inverted the colour of our button 
 
-
-
 const mapDispatchToProps = dispatch => ({
     addItem: item => dispatch(addItem(item))
 })
 
 export default connect(
     null,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(CollectionItem);
