@@ -1,15 +1,22 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'; // 1st Redirect the user not to the sign in
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect';
 
 import './App.css';
 
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import CheckoutPage from './pages/checkout/checkout.component';
+
 import Header from './components/header/header.component';
+
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+
 import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selector';
+
 
 
 
@@ -47,6 +54,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
+          <Route exact path='/checkout' component={CheckoutPage} />
           <Route
             exact path='/signIn'
             render={() => this.props.currentUser ? (  // this will be a function that will determine based off of this.props.currentUser ? if it is present then what we want to render is our redirect component that we just imported.
@@ -68,9 +76,13 @@ class App extends React.Component {
 // so now we have access to this.props.currentUser
 
 // this is to get the value of currentUser from user.reducer
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
-});
+// const mapStateToProps = ({ user }) => ({
+//   currentUser: user.currentUser
+// });
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+})
 
 //2nd argument will be mapDispatchToProps which is a function that gets this dispatch property that will return an object 
 //where the property name will be whatever prop we want to pass in dispatches. the new action that we are trying to pass witch is setCurrentUser

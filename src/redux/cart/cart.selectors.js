@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-
+// we use Reselect to not make re re render our component 
 
 // in Reselect we usually only take a part of state, that is the cart
 const selectCart = state => state.cart;      //input selector, We only a slice of the state cart
@@ -15,6 +15,11 @@ export const selectCartItems = createSelector(
     //and what we're going to get in its parameters is actually each output o the input selector in the  array but in the order that selector were written 
 );
 
+export const selectCartHidden = createSelector(
+    [selectCart],
+    cart => cart.hidden
+);
+
 export const selectCartItemsCount = createSelector(           //
     [selectCartItems],
     cartItems =>                                          //
@@ -24,3 +29,13 @@ export const selectCartItemsCount = createSelector(           //
             0
         )
 )
+
+export const selectCartTotal = createSelector(
+    [selectCartItems],
+    cartItems =>                                          //
+        cartItems.reduce(
+            (accumulatedQuantity, cartItem) =>
+                accumulatedQuantity + cartItem.quantity * cartItem.price,      // this will give us back the total quantity of the cartItems 
+            0
+        )
+);
