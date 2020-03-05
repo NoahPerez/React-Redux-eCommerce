@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-// we use Reselect to not make re re render our component 
+// we use Reselect to not make  re-render our component 
 
 // in Reselect we usually only take a part of state, that is the cart
 const selectCart = state => state.cart;      //input selector, We only a slice of the state cart
