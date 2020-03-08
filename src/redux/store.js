@@ -1,13 +1,18 @@
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import { persistStore } from 'redux-persist' // this does is allows our browser to actually cache our store now depending on certain configuration 
-
+//When action come 
 
 import rootReducer from './root-reducer';
 
 // the middleware is that the store is expecting from redux is going to be an array const middleware = [logger]
-const middleware = [logger]; // putting this function[logger], as an array // if we need to add more things to the middleware we can just add it to this array 
+const middleware = []; // putting this function[logger], as an array // if we need to add more things to the middleware we can just add it to this array 
+// we sent our middle
 
+// if we are in Node environment 
+if (process.env.NODE_ENV === 'development') {
+    middleware.push(logger);
+}
 
 // create the store, = this function gets both rootReducer also return value of applyMiddleware. We will spread in all of the methods or all of the value in this array [logger] into (...middleware)
 // persistStore we are exporting export const store
