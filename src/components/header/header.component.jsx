@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; // higher order component that let us modify our component to have access to things related to redux.
 // higher order components are just functions that take components as arguments and then return you a new souped up component.
 
@@ -13,39 +13,44 @@ import { selectCurrentUser } from '../../redux/user/user.selector';
 
 import { ReactComponent as Logo } from '../../assets/clothingShopLogo.svg';
 
-import './header.styles.scss';
+//import './header.styles.scss';
+
+import {
+    HeaderContainer,
+    LogoContainer,
+    OptionsContainer,
+    OptionLink,
+    //OptionDiv
+} from './header.styles';
 
 
 // currentUser is coming form App.js at <Header currentUser={this.state.currentUser} /> 
 const Header = ({ currentUser, hidden }) => (  // we modified our header component to be receiving the current user value form our reducer // We also need to modify our App.js
-    <div className='header'>
-        <Link className='logo-container' to="/">
+    <HeaderContainer>
+        <LogoContainer to="/">
             <Logo className='logo' />
-        </Link>
-        <div className='options'>
-            <Link className='options' to='/shop'>
-                SHOP
-        </Link>
-            <Link className='option' to='/contact'>
-                CONTACT
-      </Link>
-
-            {
-                currentUser ? (
-                    <div className='option' onClick={() => auth.signOut()}>SIGN OUT</div>
-                ) : (
-                        <Link className='option' to='/signIn'>
-                            SIGN IN
-          </Link>
-                    )}
+        </LogoContainer>
+        <OptionsContainer>
+            <OptionLink to='/shop'>SHOP</OptionLink>
+            <OptionLink to='/contact'>CONTACT</OptionLink>
+            {currentUser ? (
+                //if we want our optionLink to be a styled.div 
+                <OptionLink as='div' onClick={() => auth.signOut()}>
+                    SIGN OUT
+                    </OptionLink>
+            ) : (
+                    <OptionLink to='/signIn'>
+                        SIGN IN
+                  </OptionLink>
+                )}
 
             <CartIcon />
-        </div>
+        </OptionsContainer>
         {
             hidden ? null : <CartDropdown />  //if hidden is true i don't want to render nothing but if it`s not then render 
         }
 
-    </div>
+    </HeaderContainer>
 )
 
 
